@@ -1,0 +1,17 @@
+[predixy1]
+redis ansible_ssh_user=ubuntu ansible_ssh_host=ubuntu@10.0.0.67
+
+[predixy:children]
+predixy1
+
+[servers]
+papi1
+papi2
+papi3
+
+[server:children]
+servers
+
+[all:children]
+predixy
+server

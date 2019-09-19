@@ -1,0 +1,6 @@
+---
+
+- hosts: predixy
+  become: yes
+  roles:
+          - predixy

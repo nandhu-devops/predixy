@@ -1,0 +1,59 @@
+---
+
+ - name: create a directory to download predixy
+   file:
+           path: /opt/predixy
+           state: directory
+
+ - name: create a src directory for predixy
+   file:
+           path: /opt/predixy/src
+           state: directory
+
+ - name: copy predixy tar file 
+   copy:
+           src: "{{ predixy_file }}"
+           dest: /opt/predixy/{{ predixy_file }}
+ 
+ - name: uncompress predixy .tgz file
+   unarchive:
+           src: /opt/predixy/{{ predixy_file }}
+           dest: /opt/predixy/
+
+ - name: template servers spec
+   template:
+           src: servers_spec.j2
+           dest: /tmp/servers_spec
+
+ - name: load servers spec
+   shell: cat /tmp/servers_spec
+   register: servers_spec
+
+ - name: set servers_spec fact
+   set_fact: servers_spec={{ servers_spec.stdout }}
+
+ - name: show servers_spec
+   debug: var=servers_spec
+
+ - name: copy cluster_conf 
+   template:
+           src: cluster.conf.j2
+           dest: /opt/predixy/conf/cluster.conf
+
+ - name: move predixy file to src directory
+   command: mv /opt/predixy/predixy /opt/predixy/src/
+
+ - name: remove predixy tar file
+   file:
+           path: /opt/predixy/{{ predixy_file }}
+           state: absent
+
+ - name: copy predixy service configuration
+   template:
+           src: predixy.service
+           dest: /lib/systemd/system/predixy.service
+
+ - name: restart predixy
+   systemd:
+           name: predixy
+           state: restarted

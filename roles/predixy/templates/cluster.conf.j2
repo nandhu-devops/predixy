@@ -1,0 +1,14 @@
+ClusterServerPool {
+    MasterReadPriority 60
+    StaticSlaveReadPriority 50
+    DynamicSlaveReadPriority 50
+    RefreshInterval 1
+    ServerTimeout 1
+    ServerFailureLimit 10
+    ServerRetryTimeout 1
+    KeepAlive 120
+    Servers {
+      {{ servers_spec }} 
+    }
+}
+

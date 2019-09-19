@@ -1,0 +1,5 @@
+{% set servers_spec = []  %}
+{%- for node in groups['server']  -%}
+{% set ignored = servers_spec.append('+' + ' ' + hostvars[node].inventory_hostname + ':' + '6379' ) %}
+{% endfor %}
+{{ servers_spec | join('\n      ') }}
