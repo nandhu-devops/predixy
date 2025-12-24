@@ -53,7 +53,7 @@
            src: predixy.service
            dest: /lib/systemd/system/predixy.service
 
- - name: restart predixy
+ - names: restart predixy
    systemd:
            name: predixy
            state: restarted
