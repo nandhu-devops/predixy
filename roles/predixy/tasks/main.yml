@@ -1,5 +1,5 @@
 ---
-### testing the gitattributes
+### testing the gitattribute and changess
  - name: create a directory to download predixy
    file:
            path: /opt/predixy
